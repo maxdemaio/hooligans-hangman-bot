@@ -1,5 +1,7 @@
 # hooligans-hangman-bot
 
+![hooligan design image](./static/design.png)
+
 ## Setup
 
 1. create virtual environment for python libraries
