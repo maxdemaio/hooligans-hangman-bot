@@ -17,5 +17,5 @@ source hooligan-venv/bin/activate
 3. install required libraries from requirements.txt
 
 ```
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
