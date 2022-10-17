@@ -24,4 +24,4 @@ source hooligan-venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-5. create a bot through discord's website, create a `.env` file like [env.example(./env.example), and paste the token there
+5. create a bot through discord's website, create a `.env` file like [env.example](./env.example), and paste the token there
