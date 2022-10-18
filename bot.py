@@ -4,7 +4,7 @@ import os
 from typing import List
 from dotenv import load_dotenv
 
-from gameLogic import startGame, guess
+from gameLogic import startGame, guess, endGame
 from model.game import Game
 
 load_dotenv()
@@ -18,18 +18,12 @@ client = discord.Client(intents=intents)
 game: Game = Game(word=None, maxGuesses=5, totalGuesses=0, 
     wrongGuesses="", rightGuesses="", uniqChars=0)
 
-print("global game")
-print(game)
-
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
 @client.event
 async def on_message(message: discord.Message):
-    global game
-    print("on message game")
-    print(game)
     if message.author == client.user:
         return
 
@@ -42,6 +36,8 @@ async def on_message(message: discord.Message):
     if message.content.startswith('$guess'):
         await guess(message, game)
 
+    if message.content.startswith('$endgame'):
+        await endGame(message, game)
 
 
 client.run(os.getenv('TOKEN'))

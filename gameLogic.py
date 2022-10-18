@@ -37,8 +37,8 @@ async def startGame(message: discord.Message, game: Game):
 
 
 async def guess(message: discord.Message, game: Game):
-    print("guess game")
-    print(game)
+    # add guess
+    game.incrGuesses()
 
     # check game state
     if game.getWord() != None:
@@ -62,19 +62,23 @@ async def guess(message: discord.Message, game: Game):
         if game.getUniqChars() == len(game.getRightGuesses()):
             await message.channel.send("you won, pal")
             await printBoard(message, game, guess)
-            game.resetGame()
+            await endGame(message, game)
             return
 
         # check if lost
         if game.getTotalGuesses() == game.getMaxGuesses():
             await message.channel.send("you lost, bucko")
             await printBoard(message, game, guess)
-            game.resetGame()
+            await endGame(message, game)
             return
-            
-        game.incrGuesses()
+    
         await printBoard(message, game, guess)
     else:
         await message.channel.send("game hasn't started")
     return
 
+
+async def endGame(message: discord.Message, game: Game):
+    await message.channel.send("game ended")
+    game.resetGame()
+    return
