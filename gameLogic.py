@@ -37,9 +37,6 @@ async def startGame(message: discord.Message, game: Game):
 
 
 async def guess(message: discord.Message, game: Game):
-    # add guess
-    game.incrGuesses()
-
     # check game state
     if game.getWord() != None:
         mStrings: List[str] = message.content.split()
@@ -56,6 +53,8 @@ async def guess(message: discord.Message, game: Game):
         if guess in game.getWord():
             game.addRightGuess(guess)
         else:
+            # add wrong guess attempt
+            game.incrGuesses()
             game.addWrongGuess(guess)
 
         # check if won
