@@ -6,7 +6,7 @@ from typing import List
 from dotenv import load_dotenv
 
 from gameLogic import startGame
-from models.game import Game
+from model.game import Game
 
 load_dotenv()
 
