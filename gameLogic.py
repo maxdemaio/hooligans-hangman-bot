@@ -1,5 +1,5 @@
 import discord
-from models.Game import Game
+from models.game import Game
 
 async def startGame(message: discord.Message, game: Game):
     print(game)
