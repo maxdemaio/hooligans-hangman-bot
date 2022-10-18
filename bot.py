@@ -18,12 +18,18 @@ client = discord.Client(intents=intents)
 game: Game = Game(word=None, maxGuesses=5, totalGuesses=0, 
     wrongGuesses="", rightGuesses="", uniqChars=0)
 
+print("global game")
+print(game)
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
 @client.event
 async def on_message(message: discord.Message):
+    global game
+    print("on message game")
+    print(game)
     if message.author == client.user:
         return
 

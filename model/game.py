@@ -1,32 +1,7 @@
 class Game:
-  # correctGuesses: int
-  # if correctGuesses == num of uniq letters in word, you win
-
-
-  # iterate over word
-  # if letter we're on not in uniq chars add _
-  # if it is in uniq char, leave alone
-
-
-  # word: test
-  # guesses: xt
-  # totalGuesses: 2
-
-  ####
-  # ------
-  #   |  |
-  #   0  |
-  #      |
-  #      |
-  # ------
-  #
-  # wrong: x
-  # right: t__t
-  ####
-
   # constructor 
   def __init__(self, word: str, maxGuesses: int, totalGuesses: int, 
-  wrongGuesses: str, rightGuesses: str, uniqChars: str):
+  wrongGuesses: str, rightGuesses: str, uniqChars: int):
     self.word = word
     self.maxGuesses = maxGuesses
     self.totalGuesses = totalGuesses
@@ -40,6 +15,9 @@ class Game:
   
   def getWord(self) -> str:
     return self.word
+
+  def getMaxGuesses(self) -> int:
+    return self.maxGuesses
 
   def getTotalGuesses(self) -> int:
     return self.totalGuesses
@@ -73,3 +51,11 @@ class Game:
     if len(g) != 1:
       raise Exception("guess must be 1 character")
     self.wrongGuesses += g
+
+  def resetGame(self):
+    self.word = None
+    self.maxGuesses = 5
+    self.totalGuesses = 0
+    self.wrongGuesses = ""
+    self.rightGuesses = ""
+    self.uniqChars = 0

@@ -6,7 +6,7 @@ async def printBoard(message: discord.Message, game: Game, guess: str):
     await message.channel.send(f"you guessed {guess}")
     await message.channel.send("wrong guesses: " + game.getWrongGuesses())
     await message.channel.send("right guesses: " + game.getRightGuesses())
-    
+
     # create __ string with right chars
     printWord = ""
     for letter in game.getWord():
@@ -37,6 +37,9 @@ async def startGame(message: discord.Message, game: Game):
 
 
 async def guess(message: discord.Message, game: Game):
+    print("guess game")
+    print(game)
+
     # check game state
     if game.getWord() != None:
         mStrings: List[str] = message.content.split()
@@ -54,7 +57,21 @@ async def guess(message: discord.Message, game: Game):
             game.addRightGuess(guess)
         else:
             game.addWrongGuess(guess)
-        # TODO: check if won/lost
+
+        # check if won
+        if game.getUniqChars() == len(game.getRightGuesses()):
+            await message.channel.send("you won, pal")
+            await printBoard(message, game, guess)
+            game.resetGame()
+            return
+
+        # check if lost
+        if game.getTotalGuesses() == game.getMaxGuesses():
+            await message.channel.send("you lost, bucko")
+            await printBoard(message, game, guess)
+            game.resetGame()
+            return
+            
         game.incrGuesses()
         await printBoard(message, game, guess)
     else:
