@@ -13,7 +13,7 @@ async def startGame(message: discord.Message, game: Game):
         game.setWord(word)
         await message.channel.send('starting a game of hangman')
     else:
-        await message.channel.send('game in progress!')
+        await message.channel.send('game already in progress!')
     return
 
 async def guess(message: discord.Message, letter: chr, game: Game):
