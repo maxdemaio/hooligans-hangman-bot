@@ -31,15 +31,8 @@ async def on_message(message: discord.Message):
         await message.channel.send('Hello!')
 
     if message.content.startswith('$hangman'):
-        # check game state if game already in progress
-        if game.getWord() == None:
-            # get random word from list of words.txt
-            word: str = ""
-            with open("words.txt", encoding = 'utf-8') as file:
-                words: List[str]= file.readlines()
-                word: str = random.choice(words).strip()
-            game.setWord(word)
-            await startGame(message, game)
+        await startGame(message, game)
+
 
 
 client.run(os.getenv('TOKEN'))
