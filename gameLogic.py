@@ -3,13 +3,6 @@ import discord
 from model.game import Game
 
 async def printBoard(message: discord.Message, game: Game, guess: str):
-    picture: str = "hangman" + str(game.getTotalGuesses()) + ".png"
-    file = discord.File("./static/" + picture, filename=picture)
-    await message.channel.send(file=file)
-    await message.channel.send(f"you guessed {guess}")
-    await message.channel.send("wrong guesses: " + game.getWrongGuesses())
-    await message.channel.send("right guesses: " + game.getRightGuesses())
-
     # create --- string with right chars
     printWord = ""
     for letter in game.getWord():
@@ -17,9 +10,27 @@ async def printBoard(message: discord.Message, game: Game, guess: str):
             printWord += letter
         else:
             printWord += "-"
-    await message.channel.send("word: " + printWord)
+    
+    picture: str = "hangman" + str(game.getTotalGuesses()) + ".png"
+    file = discord.File("./static/" + picture, filename=picture)
 
-    await message.channel.send(f"you've made {game.getTotalGuesses()} wrong guesses")
+    # create embed
+    embed = discord.Embed(title="Hooligan Hangman", color=0xABA6A0) #creates embed
+    embed.set_image(url="attachment://" + picture)
+    embed.add_field(name="word", value=printWord, inline=False)
+
+    # only attach field if present
+    if guess:
+        embed.add_field(name="you guessesed", value=guess, inline=True)
+    if game.getWrongGuesses():
+        embed.add_field(name="wrong guesses", value=game.getWrongGuesses(), inline=True)
+    if game.getRightGuesses():
+        embed.add_field(name="right guesses", value=game.getRightGuesses(), inline=True)
+    if game.getTotalGuesses() > 0: 
+        embed.add_field(name="total guesses", value=str(game.getTotalGuesses()), inline=True)
+
+    await message.channel.send(file=file, embed=embed)
+    
     return
 
 
@@ -34,8 +45,7 @@ async def startGame(message: discord.Message, game: Game):
         game.setWord(word)
         game.setUniqChars(len(set(word)))
         await message.channel.send('starting a game of hangman')
-        file = discord.File("./static/hangman0.png", filename="hangman0.png")
-        await message.channel.send(file=file)
+        await printBoard(message, game, "")
     else:
         await message.channel.send('game already in progress!')
     return
