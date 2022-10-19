@@ -15,7 +15,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # create global game
-game: Game = Game(word=None, maxGuesses=5, totalGuesses=0, 
+game: Game = Game(word=None, maxGuesses=6, totalGuesses=0, 
     wrongGuesses="", rightGuesses="", uniqChars=0)
 
 @client.event

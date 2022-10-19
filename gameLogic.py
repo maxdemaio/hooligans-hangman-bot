@@ -3,6 +3,9 @@ import discord
 from model.game import Game
 
 async def printBoard(message: discord.Message, game: Game, guess: str):
+    picture: str = "hangman" + str(game.getTotalGuesses()) + ".png"
+    file = discord.File("./static/" + picture, filename=picture)
+    await message.channel.send(file=file)
     await message.channel.send(f"you guessed {guess}")
     await message.channel.send("wrong guesses: " + game.getWrongGuesses())
     await message.channel.send("right guesses: " + game.getRightGuesses())
@@ -31,6 +34,8 @@ async def startGame(message: discord.Message, game: Game):
         game.setWord(word)
         game.setUniqChars(len(set(word)))
         await message.channel.send('starting a game of hangman')
+        file = discord.File("./static/hangman0.png", filename="hangman0.png")
+        await message.channel.send(file=file)
     else:
         await message.channel.send('game already in progress!')
     return
@@ -78,6 +83,6 @@ async def guess(message: discord.Message, game: Game):
 
 
 async def endGame(message: discord.Message, game: Game):
-    await message.channel.send("game ended")
+    await message.channel.send(f"game ended, the answer was **{game.getWord()}**")
     game.resetGame()
     return

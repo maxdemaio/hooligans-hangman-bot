@@ -54,7 +54,7 @@ class Game:
 
   def resetGame(self):
     self.word = None
-    self.maxGuesses = 5
+    self.maxGuesses = 6
     self.totalGuesses = 0
     self.wrongGuesses = ""
     self.rightGuesses = ""

@@ -1,6 +1,6 @@
 # hooligans-hangman-bot
 
-<img src="./static/design.png" alt="design" width="200"/>
+![design2](./static/design2.png)
 
 ## Setup
 
