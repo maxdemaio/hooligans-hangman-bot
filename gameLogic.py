@@ -20,7 +20,7 @@ async def printBoard(message: discord.Message, game: Game, guess: str):
 
     # only attach field if present
     if guess:
-        embed.add_field(name="you guessesed", value=guess, inline=True)
+        embed.add_field(name="you guessed", value=guess, inline=True)
     if game.getWrongGuesses():
         embed.add_field(name="wrong guesses", value=game.getWrongGuesses(), inline=True)
     if game.getRightGuesses():
