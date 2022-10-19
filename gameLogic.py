@@ -11,10 +11,9 @@ async def printBoard(message: discord.Message, game: Game, guess: str):
         else:
             printWord += "-"
     
+    # create embed
     picture: str = "hangman" + str(game.getTotalGuesses()) + ".png"
     file = discord.File("./static/" + picture, filename=picture)
-
-    # create embed
     embed = discord.Embed(title="Hooligan Hangman", color=0xABA6A0) #creates embed
     embed.set_image(url="attachment://" + picture)
     embed.add_field(name="word", value=printWord, inline=False)
@@ -65,10 +64,11 @@ async def guess(message: discord.Message, game: Game):
         if guess in game.getWrongGuesses() or guess in game.getRightGuesses():
             await message.channel.send(f"you've already guessed {guess}")
             return
+        # correct guess
         if guess in game.getWord():
             game.addRightGuess(guess)
+        # incorrect guess
         else:
-            # increase total amount of guesses
             game.incrGuesses()
             game.addWrongGuess(guess)
 
