@@ -1,13 +1,17 @@
+from typing import List
+
 class Game:
   # constructor 
   def __init__(self, word: str, maxGuesses: int, totalGuesses: int, 
-  wrongGuesses: str, rightGuesses: str, uniqChars: int):
+  wrongGuesses: str, rightGuesses: str, uniqChars: int, solutions: List[str]):
+    print(solutions)
     self.word = word
     self.maxGuesses = maxGuesses
     self.totalGuesses = totalGuesses
     self.wrongGuesses = wrongGuesses
     self.rightGuesses = rightGuesses
     self.uniqChars = uniqChars
+    self.solutions = solutions
 
   # destructor
   def __del__(self):
@@ -15,27 +19,6 @@ class Game:
   
   def getWord(self) -> str:
     return self.word
-
-  def getMaxGuesses(self) -> int:
-    return self.maxGuesses
-
-  def getTotalGuesses(self) -> int:
-    return self.totalGuesses
-
-  def getUniqChars(self) -> int:
-    return self.uniqChars
-
-  def getWrongGuesses(self) -> str:
-    return self.wrongGuesses
-
-  def getRightGuesses(self) -> str:
-    return self.rightGuesses
-
-  def setWord(self, w: str):
-    self.word = w
-
-  def setUniqChars(self, u: int):
-    self.uniqChars = u
 
   def incrGuesses(self):
     if self.totalGuesses + 1 > self.maxGuesses:
@@ -52,6 +35,9 @@ class Game:
       raise Exception("guess must be 1 character")
     self.wrongGuesses += g
 
+  def addSolution(self, s: str):
+    self.solutions.append(s)
+
   def resetGame(self):
     self.word = None
     self.maxGuesses = 6
@@ -59,3 +45,4 @@ class Game:
     self.wrongGuesses = ""
     self.rightGuesses = ""
     self.uniqChars = 0
+    self.solutions = []

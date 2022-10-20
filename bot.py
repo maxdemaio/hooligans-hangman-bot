@@ -1,10 +1,10 @@
 # This example requires the 'message_content' intent.
 import discord
 import os
-from typing import List, Dict
+from typing import Dict
 from dotenv import load_dotenv
 
-from gameLogic import startGame, guess, endGame
+from gameLogic import startGame, guess, solve, endGame
 from model.game import Game
 
 load_dotenv()
@@ -34,7 +34,7 @@ async def on_message(message: discord.Message):
     guildId: int = message.guild.id
     if guildId not in serverGameMap:
         serverGameMap[guildId] = Game(word=None, maxGuesses=6, totalGuesses=0, 
-    wrongGuesses="", rightGuesses="", uniqChars=0)
+    wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[])
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
@@ -44,6 +44,9 @@ async def on_message(message: discord.Message):
     
     if message.content.startswith('$guess'):
         await guess(message, serverGameMap[guildId])
+
+    if message.content.startswith('$solve'):
+        await solve(message, serverGameMap[guildId])
 
     if message.content.startswith('$endgame'):
         await endGame(message, serverGameMap[guildId])
