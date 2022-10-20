@@ -77,7 +77,6 @@ async def startGame(message: discord.Message, game: Game):
         await printBoard(message, game, "")
     else:
         await message.channel.send('game already in progress!')
-    print(game.creator)
     return
 
 
@@ -161,11 +160,11 @@ async def endGame(message: discord.Message, game: Game):
 
 
 async def timeoutUser(message: discord.Message, game: Game):
-    until: datetime.datetime = (discord.utils.utcnow() + datetime.timedelta(minutes=1))
+    until: datetime.datetime = (discord.utils.utcnow() + datetime.timedelta(minutes=60))
     await game.creator.timeout(until, reason="lmao get bodied nerd")
     await message.channel.send(f"{game.creator.mention} lmao get bodied nerd")
     time.sleep(5)
-    await message.channel.send("imagine losing a simple game of hangman?")
+    await message.channel.send("imagine losing a simple game of hangman?")  
     time.sleep(5)
     await message.channel.send(f"I hate to be that guy but, dare I say, do we have a straight boy in the chat? I think it's {game.creator.mention} 😩")
     time.sleep(5)
@@ -173,7 +172,7 @@ async def timeoutUser(message: discord.Message, game: Game):
     time.sleep(5)
     await message.channel.send("look at this guy, can't even type, what a fucking boomer am I right?")
     time.sleep(5)
-    await message.channel.send("btw forgot to mention you've been server timed out for failing hangman. enjoy a 1 day timeout of shame, nerd :)")
+    await message.channel.send("btw forgot to mention you've been server timed out for failing hangman. enjoy a 1 hour timeout of shame, nerd :)")
     time.sleep(5)
     await message.channel.send("please everyone, feel free to point and laugh at this hooligan")
     time.sleep(5)

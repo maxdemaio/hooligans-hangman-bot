@@ -5,7 +5,6 @@ class Game:
   # constructor 
   def __init__(self, word: str, maxGuesses: int, totalGuesses: int, 
   wrongGuesses: str, rightGuesses: str, uniqChars: int, solutions: List[str], creator: discord.Member):
-    print(solutions)
     self.word = word
     self.maxGuesses = maxGuesses
     self.totalGuesses = totalGuesses
