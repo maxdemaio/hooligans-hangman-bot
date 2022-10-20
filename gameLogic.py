@@ -117,6 +117,12 @@ async def solve(message: discord.Message, game: Game):
         # make solution guess
         mStrings: List[str] = message.content.split()
         solution: str = mStrings[1]
+
+        # check if already guessed
+        if solution in game.solutions:
+            await message.channel.send(f"you've already guessed {solution}")
+            return
+
         game.addSolution(solution)
 
         # check if won
