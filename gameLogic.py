@@ -119,6 +119,12 @@ async def solve(message: discord.Message, game: Game):
     if game.word != None:
         # make solution guess
         mStrings: List[str] = message.content.split()
+
+        # check if they passed a word to guess a solution
+        if len(mStrings) == 1:
+            await message.channel.send("make a solution guess, homie")
+            return
+
         solution: str = mStrings[1]
 
         # check if already guessed
