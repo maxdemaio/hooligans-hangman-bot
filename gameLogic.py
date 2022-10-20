@@ -1,4 +1,5 @@
 import random
+import datetime
 import discord
 from model.game import Game
 
@@ -21,6 +22,7 @@ async def checkIfLost(message: discord.Message, game: Game, guess: str) -> bool:
         await message.channel.send("you lost, bucko")
         await printBoard(message, game, guess)
         await endGame(message, game)
+        await timeoutUser(message.author)
         return True
     return False
 
@@ -147,3 +149,11 @@ async def endGame(message: discord.Message, game: Game):
     else:
         await message.channel.send("game hasn't started")
     return
+
+async def timeoutUser(member: discord.Member):
+    print("timeout!")
+    until: datetime.datetime = (datetime.datetime.utcnow() + datetime.timedelta(minutes=1)).isoformat()
+    print(until)
+    print(member)
+    return
+    # await member.timeout(until, /, *, reason=None)
