@@ -1,9 +1,10 @@
 from typing import List
+import discord
 
 class Game:
   # constructor 
   def __init__(self, word: str, maxGuesses: int, totalGuesses: int, 
-  wrongGuesses: str, rightGuesses: str, uniqChars: int, solutions: List[str]):
+  wrongGuesses: str, rightGuesses: str, uniqChars: int, solutions: List[str], creator: discord.Member):
     print(solutions)
     self.word = word
     self.maxGuesses = maxGuesses
@@ -12,6 +13,7 @@ class Game:
     self.rightGuesses = rightGuesses
     self.uniqChars = uniqChars
     self.solutions = solutions
+    self.creator = creator
 
   # destructor
   def __del__(self):
@@ -46,3 +48,4 @@ class Game:
     self.rightGuesses = ""
     self.uniqChars = 0
     self.solutions = []
+    self.creator = None

@@ -21,8 +21,8 @@ async def checkIfLost(message: discord.Message, game: Game, guess: str) -> bool:
     if game.totalGuesses == game.maxGuesses:
         await message.channel.send("you lost, bucko")
         await printBoard(message, game, guess)
+        await timeoutUser(message, game)
         await endGame(message, game)
-        await timeoutUser(message.author)
         return True
     return False
 
@@ -70,11 +70,13 @@ async def startGame(message: discord.Message, game: Game):
             words: List[str]= file.readlines()
             word: str = random.choice(words).strip()
         game.word = word
+        game.creator = message.author
         game.uniqChars = len(set(word))
         await message.channel.send('starting a game of hangman')
         await printBoard(message, game, "")
     else:
         await message.channel.send('game already in progress!')
+    print(game.creator)
     return
 
 
@@ -157,7 +159,7 @@ async def endGame(message: discord.Message, game: Game):
     return
 
 
-async def timeoutUser(member: discord.Member):
+async def timeoutUser(gmessage: discord.Message, game: Game):
     until: datetime.datetime = (discord.utils.utcnow() + datetime.timedelta(minutes=1))
-    await member.timeout(until, reason="lmao get bodied nerd")
+    await game.creator.timeout(until, reason="lmao get bodied nerd")
     return

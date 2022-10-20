@@ -34,7 +34,7 @@ async def on_message(message: discord.Message):
     guildId: int = message.guild.id
     if guildId not in serverGameMap:
         serverGameMap[guildId] = Game(word=None, maxGuesses=6, totalGuesses=0, 
-    wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[])
+    wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[], creator=None)
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
