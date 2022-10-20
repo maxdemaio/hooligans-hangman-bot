@@ -156,10 +156,8 @@ async def endGame(message: discord.Message, game: Game):
         await message.channel.send("game hasn't started")
     return
 
+
 async def timeoutUser(member: discord.Member):
-    print("timeout!")
-    until: datetime.datetime = (datetime.datetime.utcnow() + datetime.timedelta(minutes=1)).isoformat()
-    print(until)
-    print(member)
+    until: datetime.datetime = (discord.utils.utcnow() + datetime.timedelta(minutes=1))
+    await member.timeout(until, reason="lmao get bodied nerd")
     return
-    # await member.timeout(until, /, *, reason=None)
