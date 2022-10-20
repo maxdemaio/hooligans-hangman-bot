@@ -1,4 +1,5 @@
 import random
+import time
 import datetime
 import discord
 from model.game import Game
@@ -159,7 +160,22 @@ async def endGame(message: discord.Message, game: Game):
     return
 
 
-async def timeoutUser(gmessage: discord.Message, game: Game):
+async def timeoutUser(message: discord.Message, game: Game):
     until: datetime.datetime = (discord.utils.utcnow() + datetime.timedelta(minutes=1))
     await game.creator.timeout(until, reason="lmao get bodied nerd")
+    await message.channel.send(f"{game.creator.mention} lmao get bodied nerd")
+    time.sleep(5)
+    await message.channel.send("imagine losing a simple game of hangman?")
+    time.sleep(5)
+    await message.channel.send(f"I hate to be that guy but, dare I say, do we have a straight boy in the chat? I think it's {game.creator.mention} 😩")
+    time.sleep(5)
+    await message.channel.send(f"what's wrong, {game.creator.mention}, can't respond? seems you're a loss for words, bucko")
+    time.sleep(5)
+    await message.channel.send("look at this guy, can't even type, what a fucking boomer am I right?")
+    time.sleep(5)
+    await message.channel.send("btw forgot to mention you've been server timed out for failing hangman. enjoy a 1 day timeout of shame, nerd :)")
+    time.sleep(5)
+    await message.channel.send("please everyone, feel free to point and laugh at this hooligan")
+    time.sleep(5)
+    await message.channel.send("ggs and get fucked")
     return
