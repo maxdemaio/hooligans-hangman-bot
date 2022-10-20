@@ -15,6 +15,7 @@ async def checkIfWon(message: discord.Message, game: Game, guess: str, solution:
         return True
     return False
 
+
 async def checkIfLost(message: discord.Message, game: Game, guess: str) -> bool:
     if game.totalGuesses == game.maxGuesses:
         await message.channel.send("you lost, bucko")
