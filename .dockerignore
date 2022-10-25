@@ -2,4 +2,5 @@ hooligan-venv/
 .DS_Store
 .env
 .idea
+README.md
 venv
