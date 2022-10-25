@@ -2,7 +2,7 @@
 
 ![design2](./static/design2.png)
 
-Invite the bot to your Discord server with this link: <a>https://discord.com/api/oauth2/authorize?client_id=1029887727438676019&permissions=2048&scope=bot</a>. The only permission needed is to send messages.
+Invite the bot to your Discord server with this link: https://discord.com/api/oauth2/authorize?client_id=1029887727438676019&permissions=2048&scope=bot. The only permission needed is to send messages.
 
 ## Local Setup
 
