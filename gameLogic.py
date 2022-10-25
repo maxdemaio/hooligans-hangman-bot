@@ -1,6 +1,9 @@
 import random
+from typing import List
+
 import discord
 from model.game import Game
+
 
 async def checkIfWon(message: discord.Message, game: Game, guess: str, solution: str) -> bool:
     if solution and solution == game.word:
@@ -51,23 +54,23 @@ async def printBoard(message: discord.Message, game: Game, guess: str):
         embed.add_field(name="wrong guesses", value=game.wrongGuesses, inline=True)
     if game.rightGuesses:
         embed.add_field(name="right guesses", value=game.rightGuesses, inline=True)
-    if game.totalGuesses > 0: 
+    if game.totalGuesses > 0:
         embed.add_field(name="total guesses", value=str(game.totalGuesses), inline=True)
 
     await message.channel.send(file=file, embed=embed)
-    
+
     return
 
 
 async def startGame(message: discord.Message, game: Game):
     # check game state
-    if game.word == None:
+    if game.word is None:
         # get random word from list of words.txt
         word: str = ""
-        with open("words.txt", encoding = 'utf-8') as file:
-            words: List[str]= file.readlines()
+        with open("words.txt", encoding='utf-8') as file:
+            words: List[str] = file.readlines()
             word: str = random.choice(words).strip()
-        game.word = word
+        game.word = word.lower()
         game.uniqChars = len(set(word))
         await message.channel.send('starting a game of hangman')
         await printBoard(message, game, "")
@@ -78,15 +81,15 @@ async def startGame(message: discord.Message, game: Game):
 
 async def guess(message: discord.Message, game: Game):
     # check game state
-    if game.word != None:
+    if game.word is not None:
         mStrings: List[str] = message.content.split()
         # check if they passed a character to guess
         if len(mStrings) == 1:
             await message.channel.send("make a guess, homie")
             return
         # make guess
-        guess: str = mStrings[1][0]
-    
+        guess: str = mStrings[1][0].lower()
+
         # check if already guessed
         if guess in game.wrongGuesses or guess in game.rightGuesses:
             await message.channel.send(f"you've already guessed {guess}")
@@ -114,7 +117,7 @@ async def guess(message: discord.Message, game: Game):
 
 async def solve(message: discord.Message, game: Game):
     # check game state
-    if game.word != None:
+    if game.word is not None:
         # make solution guess
         mStrings: List[str] = message.content.split()
 
@@ -147,7 +150,7 @@ async def solve(message: discord.Message, game: Game):
 
 
 async def endGame(message: discord.Message, game: Game):
-    if game.word != None:
+    if game.word is not None:
         await message.channel.send(f"game ended, the answer was **{game.word}**")
         game.resetGame()
     else:
