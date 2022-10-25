@@ -2,25 +2,25 @@
 
 ![design2](./static/design2.png)
 
-## Setup
+## Local Setup
 
 1. clone the repo
 
 2. create virtual environment for python libraries
 
-```
+```commandline
 python3 -m venv hooligan-venv
 ```
 
 3. activate virtual environment
 
-```
+```commandline
 source hooligan-venv/bin/activate
 ```
 
 4. install required libraries from requirements.txt
 
-```
+```commandline
 pip3 install -r requirements.txt
 ```
 
@@ -28,6 +28,20 @@ pip3 install -r requirements.txt
 
 6. invite the bot to your server and run the bot
 
-```
+```commandline
 python3 bot.py
+```
+
+## Docker Setup
+
+1. build image
+
+```commandline
+docker build -t hooligans-hangman-bot .
+```
+
+2. run container with env variable
+
+```commandline
+docker run -e TOKEN='exampleToken' exampleImageId
 ```
