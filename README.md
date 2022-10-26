@@ -34,6 +34,8 @@ python3 bot.py
 
 ## Docker Setup
 
+latest image pushed to docker hub here: https://hub.docker.com/repository/docker/maxwelldemaio/hooligans-hangman-bot
+
 1. build image
 
 ```commandline
