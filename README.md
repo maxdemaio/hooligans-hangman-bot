@@ -34,16 +34,14 @@ python3 bot.py
 
 ## Docker Setup
 
-latest image pushed to docker hub here: https://hub.docker.com/repository/docker/maxwelldemaio/hooligans-hangman-bot
-
-1. build image
+1. pull latest image from docker hub - https://hub.docker.com/repository/docker/maxwelldemaio/hooligans-hangman-bot
 
 ```commandline
-docker build -t hooligans-hangman-bot .
+docker pull maxwelldemaio/hooligans-hangman-bot:latest
 ```
 
 2. run container with env variable
 
 ```commandline
-docker run -e TOKEN='exampleToken' exampleImageId
+docker run -e TOKEN='exampleToken' maxwelldemaio/hooligans-hangman-bot:latest
 ```
