@@ -31,4 +31,4 @@ jobs:
           # build for multiple platforms
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/hooligans-hangman-bot:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hooligans-hangman-bot:latest
