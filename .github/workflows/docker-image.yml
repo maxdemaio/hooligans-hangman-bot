@@ -14,12 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: maxwelldemaio/hooligans-hangman-bot
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -37,4 +31,4 @@ jobs:
           # build for multiple platforms
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: user/app:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/hooligans-hangman-bot:latest
