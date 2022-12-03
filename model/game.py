@@ -36,12 +36,3 @@ class Game:
 
   def addSolution(self, s: str):
     self.solutions.append(s)
-
-  def resetGame(self):
-    self.word = None
-    self.maxGuesses = 6
-    self.totalGuesses = 0
-    self.wrongGuesses = ""
-    self.rightGuesses = ""
-    self.uniqChars = 0
-    self.solutions = []
