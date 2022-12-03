@@ -9,14 +9,22 @@
 2. create virtual environment for python libraries
 
 ```commandline
-python3 -m venv hooligan-venv
+python3 -m venv venv
 ```
 
-3. activate virtual environment
+3. activate virtual environment 
 
+macOS way to do it:
 ```commandline
-source hooligan-venv/bin/activate
+source venv/bin/activate
 ```
+
+windows way to do it:
+```commandline
+venv\Scripts\activate.bat
+```
+
+To deactivate the environment, type `deactivate` in your respective terminal where the virtual environment is active.
 
 4. install required libraries from requirements.txt
 
