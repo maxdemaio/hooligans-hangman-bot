@@ -24,7 +24,7 @@ windows way to do it:
 venv\Scripts\activate.bat
 ```
 
-To deactivate the environment, type `deactivate` in your respective terminal where the virtual environment is active.
+If you'd like to deactivate the environment, type `deactivate` in your respective terminal where the virtual environment is active.
 
 4. install required libraries from requirements.txt
 
