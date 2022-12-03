@@ -53,3 +53,11 @@ docker pull maxwelldemaio/hooligans-hangman-bot:latest
 ```commandline
 docker run -e TOKEN='exampleToken' maxwelldemaio/hooligans-hangman-bot:latest
 ```
+
+## Sponsors
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/maxdemaio/sponsors/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/maxdemaio/sponsors/sponsors.svg'/>
+  </a>
+</p>
