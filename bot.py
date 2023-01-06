@@ -21,14 +21,14 @@ async def check_if_won(message: discord.Message, game: Game, guess: str, solutio
     if solution and solution == game.word:
         print("you won, pal", f"guild id: {guild_id}")
         await message.channel.send("you won, pal")
-        await print_board(message, game, "")
-        await end_game(message, game)
+        await print_board(message, game, "", guild_id)
+        await end_game(message, game, guild_id)
         return True
     if guess and game.uniqChars == len(game.rightGuesses):
         print("you won, pal", f"guild id: {guild_id}")
         await message.channel.send("you won, pal")
-        await print_board(message, game, guess)
-        await end_game(message, game)
+        await print_board(message, game, guess, guild_id)
+        await end_game(message, game, guild_id)
         return True
     return False
 
@@ -37,8 +37,8 @@ async def check_if_lost(message: discord.Message, game: Game, guess: str, guild_
     if game.totalGuesses == game.maxGuesses:
         print("you lost, bucko", f"guild id: {guild_id}")
         await message.channel.send("you lost, bucko")
-        await print_board(message, game, guess)
-        await end_game(message, game)
+        await print_board(message, game, guess, guild_id)
+        await end_game(message, game, guild_id)
         return True
     return False
 
