@@ -17,13 +17,15 @@ client = discord.Client(intents=intents)
 serverGameMap: Dict[int, Game] = {}
 
 
-async def check_if_won(message: discord.Message, game: Game, guess: str, solution: str) -> bool:
+async def check_if_won(message: discord.Message, game: Game, guess: str, solution: str, guild_id: int) -> bool:
     if solution and solution == game.word:
+        print("you won, pal", f"guild id: {guild_id}")
         await message.channel.send("you won, pal")
         await print_board(message, game, "")
         await end_game(message, game)
         return True
     if guess and game.uniqChars == len(game.rightGuesses):
+        print("you won, pal", f"guild id: {guild_id}")
         await message.channel.send("you won, pal")
         await print_board(message, game, guess)
         await end_game(message, game)
@@ -31,8 +33,9 @@ async def check_if_won(message: discord.Message, game: Game, guess: str, solutio
     return False
 
 
-async def check_if_lost(message: discord.Message, game: Game, guess: str) -> bool:
+async def check_if_lost(message: discord.Message, game: Game, guess: str, guild_id: int) -> bool:
     if game.totalGuesses == game.maxGuesses:
+        print("you lost, bucko", f"guild id: {guild_id}")
         await message.channel.send("you lost, bucko")
         await print_board(message, game, guess)
         await end_game(message, game)
@@ -40,7 +43,7 @@ async def check_if_lost(message: discord.Message, game: Game, guess: str) -> boo
     return False
 
 
-async def print_board(message: discord.Message, game: Game, guess: str):
+async def print_board(message: discord.Message, game: Game, guess: str, guild_id: int):
     # create --- string with right chars
     printWord = ""
     for letter in game.word:
@@ -69,12 +72,13 @@ async def print_board(message: discord.Message, game: Game, guess: str):
     if game.totalGuesses > 0:
         embed.add_field(name="total guesses", value=str(game.totalGuesses), inline=True)
 
+    print("printing board", f"guild id: {guild_id}")
     await message.channel.send(file=file, embed=embed)
 
     return
 
 
-async def start_game(message: discord.Message, game: Game):
+async def start_game(message: discord.Message, game: Game, guild_id: int):
     # check game state
     if game.word is None:
         # get random word from list of words.txt
@@ -84,14 +88,16 @@ async def start_game(message: discord.Message, game: Game):
             word: str = random.choice(words).strip()
         game.word = word.lower()
         game.uniqChars = len(set(word))
+        print("starting a game of hangman", f"guild id: {guild_id}")
         await message.channel.send('starting a game of hangman')
-        await print_board(message, game, "")
+        await print_board(message, game, "", guild_id)
     else:
+        print("game already in progress!", f"guild id: {guild_id}")
         await message.channel.send('game already in progress!')
     return
 
 
-async def guess(message: discord.Message, game: Game):
+async def guess(message: discord.Message, game: Game, guild_id: int):
     # check game state
     if game.word is not None:
         mStrings: List[str] = message.content.split()
@@ -104,6 +110,7 @@ async def guess(message: discord.Message, game: Game):
 
         # check if already guessed
         if guess in game.wrongGuesses or guess in game.rightGuesses:
+            print(f"you've alread guessed {guess}", f"guild id: {guild_id}")
             await message.channel.send(f"you've already guessed {guess}")
             return
         # correct guess
@@ -115,19 +122,20 @@ async def guess(message: discord.Message, game: Game):
             game.addWrongGuess(guess)
 
         # check if won
-        if await check_if_won(message, game, guess, ""):
+        if await check_if_won(message, game, guess, "", guild_id):
             return
         # check if lost
-        if await check_if_lost(message, game, guess):
+        if await check_if_lost(message, game, guess, guild_id):
             return
 
-        await print_board(message, game, guess)
+        await print_board(message, game, guess, guild_id)
     else:
+        print("game hasn't started", f"guild id: {guild_id}")
         await message.channel.send("game hasn't started")
     return
 
 
-async def solve(message: discord.Message, game: Game):
+async def solve(message: discord.Message, game: Game, guild_id: int):
     # check game state
     if game.word is not None:
         # make solution guess
@@ -135,6 +143,7 @@ async def solve(message: discord.Message, game: Game):
 
         # check if they passed a word to guess a solution
         if len(mStrings) == 1:
+            print("make a solution guess, home", f"guild id: {guild_id}")
             await message.channel.send("make a solution guess, homie")
             return
 
@@ -142,33 +151,37 @@ async def solve(message: discord.Message, game: Game):
 
         # check if already guessed
         if solution in game.solutions:
+            print(f"you've already guessed {solution}", f"guild id: {guild_id}")
             await message.channel.send(f"you've already guessed {solution}")
             return
 
         game.addSolution(solution)
 
         # check if won
-        if await check_if_won(message, game, "", solution):
+        if await check_if_won(message, game, "", solution, guild_id):
             return
         # check if lost
         game.incrGuesses()
-        if await check_if_lost(message, game, ""):
+        if await check_if_lost(message, game, "", guild_id):
             return
 
-        await print_board(message, game, "")
+        await print_board(message, game, "", guild_id)
     else:
+        print("game hasn't started", f"guild id: {guild_id}")
         await message.channel.send("game hasn't started")
     return
 
 
-async def end_game(message: discord.Message, game: Game, guildId: int):
+async def end_game(message: discord.Message, game: Game, guild_id: int):
     if game.word is not None:
+        print(f"game ended, the answer was **{game.word}**", f"guild id: {guild_id}")
         await message.channel.send(f"game ended, the answer was **{game.word}**")
     else:
+        print("game hasn't started", f"guild id: {guild_id}")
         await message.channel.send("game hasn't started")
     # remove server/game key/value pair from in-memory map
-    if guildId in serverGameMap:
-        del serverGameMap[guildId]
+    if guild_id in serverGameMap:
+        del serverGameMap[guild_id]
     return
 
 
@@ -185,25 +198,26 @@ async def on_message(message: discord.Message):
         return
 
     # get discord guild of message event and relative game
-    guildId: int = message.guild.id
-    if guildId not in serverGameMap:
-        serverGameMap[guildId] = Game(word=None, maxGuesses=6, totalGuesses=0,
+    guild_id: int = message.guild.id
+    if guild_id not in serverGameMap:
+        serverGameMap[guild_id] = Game(word=None, maxGuesses=6, totalGuesses=0,
                                       wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[])
 
     if message.content.startswith('$hello'):
+        print("Hello!", f"guild id: {guild_id}")
         await message.channel.send('Hello!')
 
     if message.content.startswith('$hangman'):
-        await start_game(message, serverGameMap[guildId])
+        await start_game(message, serverGameMap[guild_id], guild_id)
 
     if message.content.startswith('$guess'):
-        await guess(message, serverGameMap[guildId])
+        await guess(message, serverGameMap[guild_id], guild_id)
 
     if message.content.startswith('$solve'):
-        await solve(message, serverGameMap[guildId])
+        await solve(message, serverGameMap[guild_id], guild_id)
 
     if message.content.startswith('$endgame'):
-        await end_game(message, serverGameMap[guildId], guildId)
+        await end_game(message, serverGameMap[guild_id], guild_id)
 
 
 client.run(os.getenv('TOKEN'))
