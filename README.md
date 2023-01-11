@@ -64,9 +64,17 @@ On my Mac, I started with the [local dictionary](<https://en.wikipedia.org/wiki/
 /usr/share/dict/words
 ```
 
-All words were turned into lowercase and pruned of words with non-alphabet characters. Then, I created a histogram of the [Scrabble](https://en.wikipedia.org/wiki/Scrabble) scores of each word in that subset of valid dictionary words.
+Then, I created a histogram of the [Scrabble](https://en.wikipedia.org/wiki/Scrabble) scores of each dictionary word.
 
-Once this histogram was created, I used integration to find the area under the curve. This is the cumulative probability distribution. Using this, I was able to determine which bins are in the first, second, and third thirds of the distribution. These buckets correspond to easy, medium, and hard difficulties.
+Once this histogram was created, I used integration to find the area under the curve. This is the cumulative probability distribution. This distribution levels out at the total count of all words in the dictionary. Using this, I was able to determine which bins are in the first, second, and third thirds of the distribution. These buckets correspond to easy, medium, and hard difficulties.
+
+## Usages
+
+- $hangman
+  - $hangman {difficulty}
+- $guess {guess}
+- $solve {solution}
+- $endgame
 
 - [rankings.ipynb](./rankings.ipynb)
 
