@@ -72,11 +72,11 @@ Once this histogram was created, I used integration to find the area under the c
 
 ## Usages
 
-- $hangman
-  - $hangman {difficulty}
-- $guess {guess}
-- $solve {solution}
-- $endgame
+- `$hangman`
+  - `$hangman {difficulty}`
+- `$guess {guess}`
+- `$solve {solution}`
+- `$endgame`
 
 ## Sponsors
 
