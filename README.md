@@ -68,6 +68,8 @@ Then, I created a histogram of the [Scrabble](https://en.wikipedia.org/wiki/Scra
 
 Once this histogram was created, I used integration to find the area under the curve. This is the cumulative probability distribution. This distribution levels out at the total count of all words in the dictionary. Using this, I was able to determine which bins are in the first, second, and third thirds of the distribution. These buckets correspond to easy, medium, and hard difficulties.
 
+- [rankings.ipynb](./rankings.ipynb)
+
 ## Usages
 
 - $hangman
@@ -75,8 +77,6 @@ Once this histogram was created, I used integration to find the area under the c
 - $guess {guess}
 - $solve {solution}
 - $endgame
-
-- [rankings.ipynb](./rankings.ipynb)
 
 ## Sponsors
 
