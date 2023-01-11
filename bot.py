@@ -17,6 +17,16 @@ client = discord.Client(intents=intents)
 serverGameMap: Dict[int, Game] = {}
 
 
+def choose_word(difficulty: str) -> list[str, str]:
+    # default easy difficulty
+    if difficulty not in ("easy", "medium", "hard"):
+        difficulty = "easy"
+    with open(f"{difficulty}_words.txt", encoding='utf-8') as file:
+            words: List[str] = file.readlines()
+            word: str = random.choice(words).strip()
+            return [word, difficulty]
+
+
 async def check_if_won(message: discord.Message, game: Game, guess: str, solution: str, guild_id: int) -> bool:
     if solution and solution == game.word:
         print("you won, pal", f"guild id: {guild_id}")
@@ -81,19 +91,26 @@ async def print_board(message: discord.Message, game: Game, guess: str, guild_id
 async def start_game(message: discord.Message, game: Game, guild_id: int):
     # check game state
     if game.word is None:
-        # get random word from list of words.txt
         word: str = ""
-        with open("words.txt", encoding='utf-8') as file:
-            words: List[str] = file.readlines()
-            word: str = random.choice(words).strip()
-        game.word = word.lower()
+        diff: str = ""
+
+        # check difficulty argument and choose difficulty
+        mStrings: List[str] = message.content.split()
+        if len(mStrings) > 1:
+            print(mStrings[1].lower())
+            word, diff = choose_word(mStrings[1].lower())
+        else: 
+            word, diff = choose_word("easy")
+
+        game.diff = diff
+        game.word = word
         game.uniqChars = len(set(word))
-        print("starting a game of hangman", f"guild id: {guild_id}")
-        await message.channel.send('starting a game of hangman')
+        print(f"starting a game of hangman with difficulty {game.diff}", f"guild id: {guild_id}")
+        await message.channel.send(f"starting a game of hangman with difficulty {game.diff}")
         await print_board(message, game, "", guild_id)
     else:
         print("game already in progress!", f"guild id: {guild_id}")
-        await message.channel.send('game already in progress!')
+        await message.channel.send("game already in progress!")
     return
 
 
@@ -187,7 +204,7 @@ async def end_game(message: discord.Message, game: Game, guild_id: int):
 
 @client.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f"We have logged in as {client.user}")
     game = discord.Game("$hangman")
     await client.change_presence(activity=game)
 
@@ -201,23 +218,23 @@ async def on_message(message: discord.Message):
     guild_id: int = message.guild.id
     if guild_id not in serverGameMap:
         serverGameMap[guild_id] = Game(word=None, maxGuesses=6, totalGuesses=0,
-                                      wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[])
+                                      wrongGuesses="", rightGuesses="", uniqChars=0, solutions=[], diff="")
 
-    if message.content.startswith('$hello'):
+    if message.content.startswith("$hello"):
         print("Hello!", f"guild id: {guild_id}")
-        await message.channel.send('Hello!')
+        await message.channel.send("Hello!")
 
-    if message.content.startswith('$hangman'):
+    if message.content.startswith("$hangman"):
         await start_game(message, serverGameMap[guild_id], guild_id)
 
-    if message.content.startswith('$guess'):
+    if message.content.startswith("$guess"):
         await guess(message, serverGameMap[guild_id], guild_id)
 
-    if message.content.startswith('$solve'):
+    if message.content.startswith("$solve"):
         await solve(message, serverGameMap[guild_id], guild_id)
 
-    if message.content.startswith('$endgame'):
+    if message.content.startswith("$endgame"):
         await end_game(message, serverGameMap[guild_id], guild_id)
 
 
-client.run(os.getenv('TOKEN'))
+client.run(os.getenv("TOKEN"))
