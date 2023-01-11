@@ -3,7 +3,9 @@ from typing import List
 class Game:
   # constructor 
   def __init__(self, word: str, maxGuesses: int, totalGuesses: int, 
-  wrongGuesses: str, rightGuesses: str, uniqChars: int, solutions: List[str]):
+  wrongGuesses: str, rightGuesses: str, 
+  uniqChars: int, solutions: List[str], diff: str):
+    self.diff = diff
     self.word = word
     self.maxGuesses = maxGuesses
     self.totalGuesses = totalGuesses
